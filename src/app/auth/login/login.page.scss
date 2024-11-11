@@ -1,0 +1,25 @@
+.my-container {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  padding: 18px;
+  transform: translateY(-50%);
+}
+
+.heading {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.input-item {
+  padding-left: 20px;
+  width: 100%;
+  border-radius: 12px;
+  height: 70px;
+  ion-input {
+    margin-top: -12px;
+  }
+}
