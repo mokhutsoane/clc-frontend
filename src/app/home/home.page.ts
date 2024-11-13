@@ -1,27 +1,72 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+/// <reference types="@types/google.maps" />
+
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent, IonButtons, IonButton, IonIcon, IonFab, IonFabButton, IonFabList, IonItem, IonList, IonLabel, IonCardSubtitle, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
+  IonContent,
+  IonIcon,
+  IonFab,
+  IonFabButton,
+  IonItem,
+  IonList,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent, ModalController
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { logoIonic, heart, addOutline, addCircleSharp, add, chevronUpCircle, document, colorPalette, globe } from 'ionicons/icons';
+import {
+  add,
+
+} from 'ionicons/icons';
+import { AddHouseComponent } from './add-house/add-house.component';
+import { GoogleMap } from '@capacitor/google-maps';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonCardSubtitle, IonLabel, IonList, IonItem, IonFabList, IonFabButton, IonFab, IonIcon, IonButton, IonButtons, IonHeader, IonToolbar, IonTitle, IonContent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
+  imports: [
+    IonCardContent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCard,
+    IonList,
+    IonItem,
+    IonFabButton,
+    IonFab,
+    IonIcon,
+
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent
+  ],
 })
 export class HomePage implements OnInit, OnDestroy {
-  constructor() {
-    addIcons({add,chevronUpCircle,document,colorPalette,globe,addCircleSharp,addOutline,heart,logoIonic});
+  constructor(private modalCtrl: ModalController) {
+    addIcons({
+      add,
+    });
   }
-
-  myName: string = '';
-  ngOnDestroy(): void { }
+  message = 'This modal example uses the modalController to present and dismiss modals.';
   ngOnInit(): void {
-    this.myName = 'Thabo';
   }
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: AddHouseComponent,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.message = `Hello, ${data}!`;
+    }
+  }
+  ngOnDestroy(): void { }
 }

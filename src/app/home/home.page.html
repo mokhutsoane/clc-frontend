@@ -4,6 +4,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
+
   <ion-list>
     <ion-item>
       <ion-card>
@@ -11,12 +12,11 @@
           <ion-card-title>PO15678564</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          234 Church Street,Colloyn,PRETORIA,
-          0083,
-          SOUTH AFRICA
+          234 Church Street,Colloyn,PRETORIA, 0083, SOUTH AFRICA
         </ion-card-content>
         <ion-card-content>
-          Here's a small text description for the card content. Nothing more, nothing less.
+          Here's a small text description for the card content. Nothing more,
+          nothing less.
         </ion-card-content>
       </ion-card>
     </ion-item>
@@ -26,18 +26,17 @@
           <ion-card-title>PO15678564</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          234 Church Street,Colloyn,PRETORIA,
-          0083,
-          SOUTH AFRICA
+          234 Church Street,Colloyn,PRETORIA, 0083, SOUTH AFRICA
         </ion-card-content>
         <ion-card-content>
-          Here's a small text description for the card content. Nothing more, nothing less.
+          Here's a small text description for the card content. Nothing more,
+          nothing less.
         </ion-card-content>
       </ion-card>
     </ion-item>
   </ion-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button size="small">
+    <ion-fab-button (click)="openModal()" size="small">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
