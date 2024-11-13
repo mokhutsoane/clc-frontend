@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>House Detail</ion-title>
+    <ion-buttons (click)="openImageModal()" slot="end">
+      <ion-button [strong]="true">Add Image</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>PO15678564</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      234 Church Street,Colloyn,PRETORIA, 0083, SOUTH AFRICA
+    </ion-card-content>
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more,
+      nothing less.
+    </ion-card-content>
+  </ion-card>
+
+  <div class="ion-padding">
+    <ion-item>
+      <ion-label>Images</ion-label>
+    </ion-item>
+    <ion-grid>
+      <ion-row class="ion-justify-content-start">
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img
+            src="https://docs-demo.ionic.io/assets/madison.jpg"
+            alt="The Wisconsin State Capitol building in Madison, WI at night">
+          </ion-img>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img
+            src="https://docs-demo.ionic.io/assets/madison.jpg"
+            alt="The Wisconsin State Capitol building in Madison, WI at night">
+          </ion-img>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img
+            src="https://docs-demo.ionic.io/assets/madison.jpg"
+            alt="The Wisconsin State Capitol building in Madison, WI at night">
+          </ion-img>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img
+            src="https://docs-demo.ionic.io/assets/madison.jpg"
+            alt="The Wisconsin State Capitol building in Madison, WI at night">
+          </ion-img>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img
+            src="https://docs-demo.ionic.io/assets/madison.jpg"
+            alt="The Wisconsin State Capitol building in Madison, WI at night">
+          </ion-img>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img
+            src="https://docs-demo.ionic.io/assets/madison.jpg"
+            alt="The Wisconsin State Capitol building in Madison, WI at night">
+          </ion-img>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openModal()" size="medium">
+      <ion-icon name="pencil-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

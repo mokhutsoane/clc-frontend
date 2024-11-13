@@ -1,6 +1,11 @@
 /// <reference types="@types/google.maps" />
 
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -14,16 +19,13 @@ import {
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardContent, ModalController
+  IonCardContent,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import {
-  add,
-
-} from 'ionicons/icons';
+import { add } from 'ionicons/icons';
 import { AddHouseComponent } from './add-house/add-house.component';
-import { GoogleMap } from '@capacitor/google-maps';
-import { environment } from 'src/environments/environment.prod';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -42,22 +44,24 @@ import { environment } from 'src/environments/environment.prod';
     IonFabButton,
     IonFab,
     IonIcon,
-
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent
+    IonContent,
   ],
 })
 export class HomePage implements OnInit, OnDestroy {
-  constructor(private modalCtrl: ModalController) {
+  constructor(
+    private modalCtrl: ModalController,
+    private router: Router,
+  ) {
     addIcons({
       add,
     });
   }
-  message = 'This modal example uses the modalController to present and dismiss modals.';
-  ngOnInit(): void {
-  }
+  message =
+    'This modal example uses the modalController to present and dismiss modals.';
+  ngOnInit(): void {}
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: AddHouseComponent,
@@ -68,5 +72,9 @@ export class HomePage implements OnInit, OnDestroy {
       this.message = `Hello, ${data}!`;
     }
   }
-  ngOnDestroy(): void { }
+
+  goToDetailPage(id: number) {
+    this.router.navigate(['/house-detail', id]);
+  }
+  ngOnDestroy(): void {}
 }

@@ -4,9 +4,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-
   <ion-list>
-    <ion-item>
+    <ion-item (click)="goToDetailPage(1)">
       <ion-card>
         <ion-card-header>
           <ion-card-title>PO15678564</ion-card-title>
@@ -36,7 +35,7 @@
     </ion-item>
   </ion-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="openModal()" size="small">
+    <ion-fab-button (click)="openModal()" size="medium">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

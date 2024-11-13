@@ -1,17 +1,68 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap, Marker,  } from '@capacitor/google-maps';
-
 import {
-  ModalController
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { GoogleMap, Marker } from '@capacitor/google-maps';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonIcon,
+  IonFab,
+  IonFabButton,
+  IonItem,
+  IonList,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  ModalController,
+  IonModal,
+  IonImg,
+  IonLabel,
+  IonAvatar,
+  IonButtons,
+  IonButton,
 } from '@ionic/angular/standalone';
+
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-add-house',
   templateUrl: './add-house.component.html',
   styleUrls: ['./add-house.component.scss'],
   standalone: true,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    IonButton,
+    IonButtons,
+    IonLabel,
+    IonImg,
+    IonModal,
+    IonCardContent,
+    IonContent,
+    IonToolbar,
+    IonCardContent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCard,
+    IonList,
+    IonItem,
+    IonFabButton,
+    IonFab,
+    IonIcon,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AddHouseComponent implements OnInit {
   @ViewChild('map')
@@ -23,10 +74,9 @@ export class AddHouseComponent implements OnInit {
   latitude: number = -25.741583431753494;
   longitude: number = 28.196763182055655;
   address: string = '';
-  markerId: string | undefined;
+  description: any;
 
-  constructor(private modalCtrl: ModalController) { }
-
+  constructor(private modalCtrl: ModalController) {}
 
   async ionViewDidEnter() {
     if (this.mapRef?.nativeElement) {
@@ -63,23 +113,19 @@ export class AddHouseComponent implements OnInit {
       snippet: '',
       draggable: true,
     };
-    await this.newMap.addMarker(marker)
+    await this.newMap.addMarker(marker);
 
-    this.newMap.setOnMarkerDragEndListener(async (marker) => {
-      this.latitude = marker.latitude,
-        this.longitude = marker.longitude;
+    this.newMap.setOnMarkerDragEndListener(async marker => {
+      (this.latitude = marker.latitude), (this.longitude = marker.longitude);
     });
-
   }
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
   confirm() {
-    console.log(this.latitude)
-    console.log(this.longitude)
+    console.log(this.latitude);
+    console.log(this.longitude);
     // return this.modalCtrl.dismiss(this.name, 'confirm');
-
   }
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

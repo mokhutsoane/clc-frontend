@@ -3,59 +3,52 @@
     <h1 class="heading">CLC</h1>
     <p class="ion-padding-bottom">Welcome</p>
     <form>
-      <ion-item lines="none" class="ion-item">
-        <fieldset class="input-item">
-          <legend>Full Name</legend>
-          <ion-input
-            name="full_name"
-            [(ngModel)]="fullName"
-            type="text"
-            placeholder="John Doe"></ion-input>
-        </fieldset>
+      <ion-item>
+        <ion-label position="stacked">Full Name</ion-label>
+        <ion-input
+          name="full_name"
+          [(ngModel)]="fullName"
+          type="text"
+          placeholder="John Doe"></ion-input>
       </ion-item>
       <br />
-      <ion-item lines="none" class="ion-item">
-        <fieldset class="input-item">
-          <legend>Email</legend>
-          <ion-input
-            name="email"
-            [(ngModel)]="email"
-            type="email"
-            placeholder="email@domain.com"></ion-input>
-        </fieldset>
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+
+        <ion-input
+          name="email"
+          [(ngModel)]="email"
+          type="email"
+          placeholder="email@domain.com"></ion-input>
       </ion-item>
       <br />
-      <ion-item lines="none" class="ion-item">
-        <fieldset class="input-item">
-          <legend>Password</legend>
-          <ion-input
-            [(ngModel)]="password"
-            type="password"
-            name="password"
-            placeholder="*******">
-          </ion-input>
-        </fieldset>
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+
+        <ion-input
+          [(ngModel)]="password"
+          type="password"
+          name="password"
+          placeholder="*******">
+        </ion-input>
       </ion-item>
       <br />
 
-      <ion-item lines="none" class="ion-item">
-        <fieldset class="input-item">
-          <legend>Confirm Password</legend>
-          <ion-input
-            [(ngModel)]="confirmPassword"
-            type="password"
-            name="confirm_password"
-            placeholder="*******">
-          </ion-input>
-        </fieldset>
+      <ion-item>
+        <ion-label position="stacked">Confirm Password</ion-label>
+
+        <ion-input
+          [(ngModel)]="confirmPassword"
+          type="password"
+          name="confirm_password"
+          placeholder="*******">
+        </ion-input>
       </ion-item>
       <br />
 
-      <ion-card-content>
-        <ion-button (click)="register()" expand="block" color="primary"
-          >Sign in</ion-button
-        >
-      </ion-card-content>
+      <ion-button (click)="register()" expand="block" color="primary"
+        >Sign in</ion-button
+      >
       <p class="signup-text">
         Already have an account?&nbsp;<a [routerLink]="['/auth/login']"
           >Login</a

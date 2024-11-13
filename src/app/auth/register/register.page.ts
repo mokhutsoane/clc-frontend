@@ -8,6 +8,7 @@ import {
   IonButton,
   IonToast,
   IonCardContent,
+  IonLabel,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -16,6 +17,7 @@ import {
   styleUrls: ['./register.page.scss'],
   standalone: true,
   imports: [
+    IonLabel,
     IonCardContent,
     ReactiveFormsModule,
     FormsModule,

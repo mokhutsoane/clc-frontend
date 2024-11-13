@@ -14,12 +14,8 @@
   text-align: center;
 }
 
-.input-item {
-  padding-left: 20px;
-  width: 100%;
-  border-radius: 12px;
-  height: 70px;
-  ion-input {
-    margin-top: -12px;
-  }
+.ion-item {
+  --ion-item-background: none;
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
 }

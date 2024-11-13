@@ -12,7 +12,9 @@ install-state.gz
 /node_modules
 npm-debug.log
 yarn-error.log
-
+/ios
+/android
+/wwww
 # IDEs and editors
 .idea/
 .project
