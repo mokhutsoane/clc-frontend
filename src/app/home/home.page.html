@@ -1,6 +1,16 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <!-- <ion-toolbar>
     <ion-title>Houses</ion-title>
+  </ion-toolbar> -->
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="primary">
+      <ion-button (click)="logout()"> Logout </ion-button>
+    </ion-buttons>
+    <ion-title>Houses</ion-title>
+    @if (isLoading) {
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    }
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">

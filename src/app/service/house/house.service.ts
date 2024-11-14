@@ -59,16 +59,14 @@ export class HouseService {
     );
   }
 
-
   async addImage(formData: FormData) {
-    const sessionToken = await this.appStorageService.getSessionToken();    
+    const sessionToken = await this.appStorageService.getSessionToken();
     return this.jsonHelperService.postImage<any>(
       '/api/house/damage-images/',
       formData,
       sessionToken ?? '',
     );
   }
-
 
   async removeImage(body: { id: string }) {
     const sessionToken = await this.appStorageService.getSessionToken();
@@ -78,5 +76,4 @@ export class HouseService {
       sessionToken ?? '',
     );
   }
-
 }

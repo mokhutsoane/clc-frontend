@@ -1,9 +1,13 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>House Detail</ion-title>
+    @if (isLoading) {
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+
+    }
     <ion-buttons (click)="openImageModal()" slot="end">
       <ion-button [strong]="true">Add Image</ion-button>
     </ion-buttons>
@@ -31,9 +35,14 @@
     <ion-grid>
       <ion-row class="ion-justify-content-start">
         @for (item of houseModel.images; track $index) {
-        <ion-col size="6" size-md="4" size-lg="2">
-          <ion-img src="{{baseUrl+item.image_url}}" alt="{{item.title}}">
-          </ion-img>
+        <ion-col size="12" size-md="4" size-lg="2">
+          <ion-card>
+            <img src="{{baseUrl+item.image_url}}" alt="{{item.title}}" />
+
+            <ion-button (click)="deleteHouseImage(item.id)" fill="clear"
+              >Delete</ion-button
+            >
+          </ion-card>
         </ion-col>
         }
       </ion-row>

@@ -23,6 +23,8 @@ import {
   IonCol,
   IonImg,
   IonLabel,
+  IonCardSubtitle,
+  IonProgressBar,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, pencilOutline, createOutline } from 'ionicons/icons';
@@ -40,6 +42,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./house-detail.page.scss'],
   standalone: true,
   imports: [
+    IonProgressBar,
+    IonCardSubtitle,
     IonLabel,
     IonImg,
     IonCol,
@@ -103,6 +107,25 @@ export class HouseDetailPage implements OnInit {
         next: response => {
           this.houseModel = response;
           this.isLoading = false;
+        },
+        error: error => {
+          this.isLoading = false;
+          console.error(error);
+        },
+      }),
+    );
+  }
+
+  async deleteHouseImage(imageId?: number) {
+    const requestBody = {
+      id: String(imageId),
+    };
+    this.isLoading = true;
+    this.subsink.add(
+      (await this.houseService.removeImage(requestBody)).subscribe({
+        next: response => {
+          this.isLoading = false;
+          this.fetHouse();
         },
         error: error => {
           this.isLoading = false;

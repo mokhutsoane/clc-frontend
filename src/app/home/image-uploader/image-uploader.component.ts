@@ -18,7 +18,6 @@ import {
   IonModal,
   IonImg,
   IonLabel,
-  IonAvatar,
   IonButtons,
   IonButton,
 } from '@ionic/angular/standalone';
@@ -64,16 +63,16 @@ export class ImageUploaderComponent implements OnInit, OnDestroy {
   toastMessage: string = '';
   private subsink = new SubSink();
 
-  constructor(private modalCtrl: ModalController,
+  constructor(
+    private modalCtrl: ModalController,
     private houseService: HouseService,
-
-  ) { }
-  ngOnInit() { }
+  ) {}
+  ngOnInit() {}
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
   }
   confirm() {
-    this.uploadImage()
+    this.uploadImage();
   }
   takePicture = async () => {
     const image = await Camera.getPhoto({
@@ -94,7 +93,9 @@ export class ImageUploaderComponent implements OnInit, OnDestroy {
       const blob = await response.blob();
 
       // Create a file from the blob
-      this.file = new File([blob], `image.${image.format}`, { type: `image/${image.format}` });
+      this.file = new File([blob], `image.${image.format}`, {
+        type: `image/${image.format}`,
+      });
 
       // Log to verify file data
       console.log(this.file);
@@ -103,11 +104,11 @@ export class ImageUploaderComponent implements OnInit, OnDestroy {
 
   async uploadImage() {
     if (!this.file) {
-      console.error("No image file selected for upload.");
+      console.error('No image file selected for upload.');
       return;
     }
     const formData = new FormData();
-    formData.append("house_id", this.houseId);
+    formData.append('house_id', this.houseId);
     formData.append('images', this.file, this.file.name);
 
     this.isLoading = true;

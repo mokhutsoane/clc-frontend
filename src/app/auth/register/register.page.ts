@@ -10,6 +10,9 @@ import {
   IonCardContent,
   IonLabel,
 } from '@ionic/angular/standalone';
+import { AppStorageService } from 'src/app/service/app-storage.service';
+import { UserService } from 'src/app/service/user/user.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-register',
@@ -30,6 +33,8 @@ import {
   ],
 })
 export class RegisterPage implements OnInit {
+  private subsink = new SubSink();
+
   password: string = '';
   confirmPassword: string = '';
   email: string = '';
@@ -37,7 +42,11 @@ export class RegisterPage implements OnInit {
   isLoading: boolean = false;
   isToastOpen: boolean = false;
   toastMessage: string = '';
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private appStorageService: AppStorageService,
+  ) {}
 
   ngOnInit() {}
 
@@ -79,7 +88,35 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    console.log(this.password);
-    console.log(this.email);
+    const requestBody = {
+      name: this.fullName,
+      email: email,
+      password: password,
+      password_confirmation: confirmPassword,
+    };
+    this.isLoading = true;
+    this.subsink.add(
+      this.userService.register(requestBody).subscribe({
+        next: response => {
+          this.appStorageService.putSessionToken(response.token);
+          this.router
+            .navigate(['/'])
+            .then(value1 => {})
+            .catch(reason => {});
+          this.isLoading = false;
+        },
+
+        error: error => {
+          this.isLoading = false;
+          console.error(error);
+          this.toastMessage = error;
+          this.setOpen(true);
+        },
+      }),
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subsink.unsubscribe();
   }
 }

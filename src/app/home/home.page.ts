@@ -1,5 +1,4 @@
 /// <reference types="@types/google.maps" />
-
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -28,7 +27,9 @@ import { AddHouseComponent } from './add-house/add-house.component';
 import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { HouseService } from '../service/house/house.service';
-import { House, HouseModel } from '../model/HouseModel';
+import { HouseModel } from '../model/HouseModel';
+import { UserService } from '../service/user/user.service';
+import { AppStorageService } from '../service/app-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -66,6 +67,8 @@ export class HomePage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private router: Router,
     private houseService: HouseService,
+    private userService: UserService,
+    private appStorageService: AppStorageService,
   ) {
     addIcons({
       add,
@@ -90,7 +93,26 @@ export class HomePage implements OnInit, OnDestroy {
       }),
     );
   }
-
+  async logout() {
+    const requestBody = {};
+    this.isLoading = true;
+    this.subsink.add(
+      (await this.userService.logout(requestBody)).subscribe({
+        next: response => {
+          this.isLoading = false;
+          this.router
+            .navigate(['/auth/login'])
+            .then(value1 => {})
+            .catch(reason => {});
+          this.appStorageService.clearSession();
+        },
+        error: error => {
+          this.isLoading = false;
+          console.error(error);
+        },
+      }),
+    );
+  }
   async deleteHouse(id?: number) {
     const requestBody = {
       house_id: String(id),
