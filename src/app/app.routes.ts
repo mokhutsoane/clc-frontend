@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
+import { isAuthenticatedGuardGuard } from './is-authenticated-guard.guard';
 
 export const routes: Routes = [
   {
-    path: 'home',
+    canActivate: [isAuthenticatedGuardGuard],
+    path: '',
     loadComponent: () => import('./home/home.page').then(m => m.HomePage),
   },
   {
@@ -16,6 +18,8 @@ export const routes: Routes = [
       import('./auth/register/register.page').then(m => m.RegisterPage),
   },
   {
+    canActivate: [isAuthenticatedGuardGuard],
+
     path: 'house-detail/:id',
     loadComponent: () =>
       import('./home/house-detail/house-detail.page').then(
@@ -23,8 +27,11 @@ export const routes: Routes = [
       ),
   },
   {
-    path: '',
-    redirectTo: 'home',
+    path: '**',
     pathMatch: 'full',
+    loadComponent: () =>
+      import('./page-error/page-not-fount/page-not-fount.page').then(
+        mod => mod.PageNotFountPage,
+      ),
   },
 ];

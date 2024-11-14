@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import {
@@ -7,10 +7,11 @@ import {
   IonInput,
   IonButton,
   IonToast,
-  IonCardContent,
   IonLabel,
-  IonCol,
 } from '@ionic/angular/standalone';
+import { AppStorageService } from 'src/app/service/app-storage.service';
+import { UserService } from 'src/app/service/user/user.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +19,7 @@ import {
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
-    IonCol,
     IonLabel,
-    IonCardContent,
     ReactiveFormsModule,
     FormsModule,
     IonToast,
@@ -31,13 +30,19 @@ import {
     RouterLink,
   ],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnDestroy {
+  private subsink = new SubSink();
+
   password: string = '';
   email: string = '';
   isLoading: boolean = false;
   isToastOpen: boolean = false;
   toastMessage: string = '';
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private appStorageService: AppStorageService,
+  ) {}
 
   ngOnInit() {}
 
@@ -67,7 +72,32 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    console.log(this.password);
-    console.log(this.email);
+    const requestBody = {
+      email: email,
+      password: password,
+    };
+    this.isLoading = true;
+    this.subsink.add(
+      this.userService.login(requestBody).subscribe({
+        next: response => {
+          this.appStorageService.putSessionToken(response.token);
+          this.router
+            .navigate(['/'])
+            .then(value1 => {})
+            .catch(reason => {});
+          this.isLoading = false;
+        },
+
+        error: error => {
+          this.isLoading = false;
+          console.error(error);
+          this.toastMessage = error;
+          this.setOpen(true);
+        },
+      }),
+    );
+  }
+  ngOnDestroy(): void {
+    this.subsink.unsubscribe();
   }
 }

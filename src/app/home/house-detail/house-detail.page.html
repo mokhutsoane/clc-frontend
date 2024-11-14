@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>House Detail</ion-title>
     <ion-buttons (click)="openImageModal()" slot="end">
@@ -13,15 +13,15 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>PO15678564</ion-card-title>
+      <ion-card-title>PO{{id}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      234 Church Street,Colloyn,PRETORIA, 0083, SOUTH AFRICA
+      <p>{{houseModel.house.address}}</p>
+      <br />
+      <p>latitude: {{houseModel.house.latitude}}</p>
+      <p>longitude: {{houseModel.house.longitude}}</p>
     </ion-card-content>
-    <ion-card-content>
-      Here's a small text description for the card content. Nothing more,
-      nothing less.
-    </ion-card-content>
+    <ion-card-content> {{houseModel.house.description}} </ion-card-content>
   </ion-card>
 
   <div class="ion-padding">
@@ -30,42 +30,12 @@
     </ion-item>
     <ion-grid>
       <ion-row class="ion-justify-content-start">
+        @for (item of houseModel.images; track $index) {
         <ion-col size="6" size-md="4" size-lg="2">
-          <ion-img
-            src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night">
+          <ion-img src="{{baseUrl+item.image_url}}" alt="{{item.title}}">
           </ion-img>
         </ion-col>
-        <ion-col size="6" size-md="4" size-lg="2">
-          <ion-img
-            src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night">
-          </ion-img>
-        </ion-col>
-        <ion-col size="6" size-md="4" size-lg="2">
-          <ion-img
-            src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night">
-          </ion-img>
-        </ion-col>
-        <ion-col size="6" size-md="4" size-lg="2">
-          <ion-img
-            src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night">
-          </ion-img>
-        </ion-col>
-        <ion-col size="6" size-md="4" size-lg="2">
-          <ion-img
-            src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night">
-          </ion-img>
-        </ion-col>
-        <ion-col size="6" size-md="4" size-lg="2">
-          <ion-img
-            src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night">
-          </ion-img>
-        </ion-col>
+        }
       </ion-row>
     </ion-grid>
   </div>

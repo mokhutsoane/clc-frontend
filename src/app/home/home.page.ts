@@ -26,6 +26,9 @@ import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 import { AddHouseComponent } from './add-house/add-house.component';
 import { Router } from '@angular/router';
+import { SubSink } from 'subsink';
+import { HouseService } from '../service/house/house.service';
+import { House, HouseModel } from '../model/HouseModel';
 
 @Component({
   selector: 'app-home',
@@ -51,9 +54,18 @@ import { Router } from '@angular/router';
   ],
 })
 export class HomePage implements OnInit, OnDestroy {
+  private subsink = new SubSink();
+  isLoading: boolean = false;
+  houseModel: HouseModel = {
+    houses: [],
+  };
+
+  isToastOpen: boolean = false;
+  toastMessage: string = '';
   constructor(
     private modalCtrl: ModalController,
     private router: Router,
+    private houseService: HouseService,
   ) {
     addIcons({
       add,
@@ -61,7 +73,47 @@ export class HomePage implements OnInit, OnDestroy {
   }
   message =
     'This modal example uses the modalController to present and dismiss modals.';
-  ngOnInit(): void {}
+
+  async fetHouses() {
+    const requestBody = {};
+    this.isLoading = true;
+    this.subsink.add(
+      (await this.houseService.getHouses(requestBody)).subscribe({
+        next: response => {
+          this.houseModel = response;
+          this.isLoading = false;
+        },
+        error: error => {
+          this.isLoading = false;
+          console.error(error);
+        },
+      }),
+    );
+  }
+
+  async deleteHouse(id?: number) {
+    const requestBody = {
+      house_id: String(id),
+    };
+    this.isLoading = true;
+    this.subsink.add(
+      (await this.houseService.removeHouse(requestBody)).subscribe({
+        next: response => {
+          this.isLoading = false;
+          this.toastMessage = 'House Deleted';
+          this.setOpen(true);
+          this.fetHouses();
+        },
+        error: error => {
+          this.isLoading = false;
+          console.error(error);
+        },
+      }),
+    );
+  }
+  async ionViewDidEnter() {
+    await this.fetHouses();
+  }
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: AddHouseComponent,
@@ -69,12 +121,27 @@ export class HomePage implements OnInit, OnDestroy {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === 'confirm') {
-      this.message = `Hello, ${data}!`;
+      console.log(this.message);
+      this.fetHouses();
     }
+    modal.onDidDismiss().then(result => {
+      const { data, role } = result;
+
+      if (role === 'confirm') {
+      } else {
+      }
+    });
+  }
+  setOpen(isOpen: boolean) {
+    this.isToastOpen = isOpen;
   }
 
-  goToDetailPage(id: number) {
+  goToDetailPage(id: number | null) {
     this.router.navigate(['/house-detail', id]);
   }
-  ngOnDestroy(): void {}
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.subsink.unsubscribe();
+  }
 }

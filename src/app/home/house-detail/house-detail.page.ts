@@ -27,8 +27,12 @@ import {
 import { addIcons } from 'ionicons';
 import { add, pencilOutline, createOutline } from 'ionicons/icons';
 import { AddHouseComponent } from '../add-house/add-house.component';
-import { Camera, CameraResultType } from '@capacitor/camera';
 import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
+import { ActivatedRoute } from '@angular/router';
+import { SubSink } from 'subsink';
+import { HouseService } from 'src/app/service/house/house.service';
+import { HouseDetailModel } from 'src/app/model/HouseDetailModel';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-house-detail',
@@ -61,25 +65,100 @@ import { ImageUploaderComponent } from '../image-uploader/image-uploader.compone
   ],
 })
 export class HouseDetailPage implements OnInit {
-  constructor(private modalCtrl: ModalController) {
+  private subsink = new SubSink();
+  readonly baseUrl: string;
+
+  constructor(
+    private modalCtrl: ModalController,
+    private activatedRoute: ActivatedRoute,
+    private houseService: HouseService,
+  ) {
     addIcons({ createOutline, add, pencilOutline });
+    this.baseUrl = environment.apiUrl;
   }
 
-  ngOnInit() {}
+  isLoading: boolean = false;
+  id: string | null = null;
+  houseModel: HouseDetailModel = {
+    house: {
+      id: 0,
+      user_id: 0,
+      address: '',
+      description: '',
+      latitude: '',
+      longitude: '',
+      created_at: '',
+      updated_at: '',
+    },
+    images: [],
+  };
+
+  async fetHouse() {
+    const requestBody = {
+      house_id: this.id ?? '',
+    };
+    this.isLoading = true;
+    this.subsink.add(
+      (await this.houseService.getHouse(requestBody)).subscribe({
+        next: response => {
+          this.houseModel = response;
+          this.isLoading = false;
+        },
+        error: error => {
+          this.isLoading = false;
+          console.error(error);
+        },
+      }),
+    );
+  }
 
   async openModal() {
     const modal = await this.modalCtrl.create({
       component: AddHouseComponent,
+      componentProps: {
+        house: this.houseModel.house,
+        isUpdating: true,
+      },
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();
+    if (role === 'confirm') {
+      this.fetHouse();
+    }
+
+    modal.onDidDismiss().then(result => {
+      const { data, role } = result;
+
+      if (role === 'confirm') {
+        console.log(role);
+      } else {
+        console.log(role);
+      }
+    });
   }
 
   async openImageModal() {
     const modal = await this.modalCtrl.create({
       component: ImageUploaderComponent,
+      componentProps: {
+        houseId: this.houseModel.house.id,
+      },
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();
+    if (role !== 'cancel') {
+      this.fetHouse();
+    }
+  }
+  ngOnInit() {
+    this.id = this.activatedRoute.snapshot.paramMap.get('id') ?? '';
+  }
+
+  async ionViewDidEnter() {
+    await this.fetHouse();
+  }
+
+  ngOnDestroy(): void {
+    this.subsink.unsubscribe();
   }
 }

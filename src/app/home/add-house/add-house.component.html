@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
-    <ion-title>Add House</ion-title>
+    <ion-title>{{ pageTitel }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="confirm()" [strong]="true">Save</ion-button>
     </ion-buttons>
@@ -11,9 +11,9 @@
 </ion-header>
 <ion-content class="ion-padding">
   <ion-item lines="none" class="ion-item">
-    <ion-label position="stacked">House Description</ion-label>
+    <ion-label class="mb" position="stacked">House Description</ion-label>
     <textarea
-      [(ngModel)]="description"
+      [(ngModel)]="house.description"
       class="textarea"
       rows="3"
       maxlength="200"
@@ -21,9 +21,9 @@
     </textarea>
   </ion-item>
   <ion-item lines="none" class="ion-item">
-    <ion-label position="stacked">Address</ion-label>
+    <ion-label class="mb" position="stacked">Address</ion-label>
     <textarea
-      [(ngModel)]="address"
+      [(ngModel)]="house.address"
       rows="2"
       maxlength="200"
       placeholder="Please enter address here...">
@@ -32,3 +32,9 @@
   <br />
   <capacitor-google-map #map></capacitor-google-map>
 </ion-content>
+<ion-toast
+  [isOpen]="isToastOpen"
+  message="{{ toastMessage }}"
+  [duration]="4000"
+  (didDismiss)="setOpen(false)">
+</ion-toast>

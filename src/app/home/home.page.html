@@ -5,34 +5,23 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item (click)="goToDetailPage(1)">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>PO15678564</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          234 Church Street,Colloyn,PRETORIA, 0083, SOUTH AFRICA
-        </ion-card-content>
-        <ion-card-content>
-          Here's a small text description for the card content. Nothing more,
-          nothing less.
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
+    @for (item of houseModel.houses; track $index) {
     <ion-item>
       <ion-card>
         <ion-card-header>
-          <ion-card-title>PO15678564</ion-card-title>
+          <ion-card-title>PO{{item.id}}</ion-card-title>
         </ion-card-header>
-        <ion-card-content>
-          234 Church Street,Colloyn,PRETORIA, 0083, SOUTH AFRICA
-        </ion-card-content>
-        <ion-card-content>
-          Here's a small text description for the card content. Nothing more,
-          nothing less.
-        </ion-card-content>
+        <ion-card-content> {{item.address}} </ion-card-content>
+        <ion-card-content> {{item.description}} </ion-card-content>
+        <ion-button (click)="deleteHouse(item.id)" fill="clear"
+          >Delete</ion-button
+        >
+        <ion-button (click)="goToDetailPage(item.id??null)" fill="clear"
+          >View</ion-button
+        >
       </ion-card>
     </ion-item>
+    }
   </ion-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="openModal()" size="medium">
@@ -40,3 +29,9 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+<ion-toast
+  [isOpen]="isToastOpen"
+  message="{{toastMessage}}"
+  [duration]="4000"
+  (didDismiss)="setOpen(false)">
+</ion-toast>
